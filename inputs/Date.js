@@ -94,21 +94,21 @@ var DateInput = function (_React$Component) {
                     var dateStringMin = this.props.min.match(/^(\d{4})-(\d{2})-(\d{2})$/);
                     minDate = new Date(dateStringMin[1], dateStringMin[2] - 1, dateStringMin[3]);
                 } else {
-                    minDate = null;
+                    minDate = undefined;
                 }
 
                 if (this.props.max) {
                     var dateStringMax = this.props.max.match(/^(\d{4})-(\d{2})-(\d{2})$/);
                     maxDate = new Date(dateStringMax[1], dateStringMax[2] - 1, dateStringMax[3]);
                 } else {
-                    maxDate = null;
+                    maxDate = undefined;
                 }
 
                 if (value) {
                     var dateStringDefault = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
                     defaultDate = new Date(dateStringDefault[1], dateStringDefault[2] - 1, dateStringDefault[3]);
                 } else {
-                    defaultDate = null;
+                    defaultDate = undefined;
                 }
 
                 return _react2.default.createElement(_DatePicker2.default, _extends({ floatingLabelText: label, autoOk: true, hintText: placeholder, defaultDate: defaultDate, minDate: minDate, maxDate: maxDate }, rest, { onChange: this._onChange.bind(this), required: this.props.required }));
