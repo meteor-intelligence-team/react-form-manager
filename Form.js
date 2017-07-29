@@ -14,12 +14,6 @@ var _Fieldset = require('./Fieldset');
 
 var _Fieldset2 = _interopRequireDefault(_Fieldset);
 
-require('semantic-ui-css/semantic.css');
-
-var _MuiThemeProvider = require('material-ui/styles/MuiThemeProvider');
-
-var _MuiThemeProvider2 = _interopRequireDefault(_MuiThemeProvider);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
@@ -45,18 +39,6 @@ var Form = function (_React$Component) {
             var _props = this.props,
                 children = _props.children,
                 other = _objectWithoutProperties(_props, ['children']);
-
-            if (this.props.material) {
-                return _react2.default.createElement(
-                    _MuiThemeProvider2.default,
-                    null,
-                    _react2.default.createElement(
-                        _Fieldset2.default,
-                        other,
-                        children
-                    )
-                );
-            }
 
             return _react2.default.createElement(
                 _Fieldset2.default,

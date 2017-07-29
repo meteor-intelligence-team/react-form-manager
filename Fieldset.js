@@ -26,10 +26,6 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _reactTapEventPlugin = require('react-tap-event-plugin');
-
-var _reactTapEventPlugin2 = _interopRequireDefault(_reactTapEventPlugin);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
@@ -57,8 +53,6 @@ var Fieldset = function (_React$Component) {
 
             if (_this.validate() === true) _this.props.onSubmit(e, _this.getValue());else e.preventDefault();
         };
-
-        (0, _reactTapEventPlugin2.default)();
 
         _this.inputs = {};
 

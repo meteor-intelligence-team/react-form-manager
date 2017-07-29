@@ -1,6 +1,6 @@
 {
   "name": "react-form-manager",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A dynamic form for React styled with semantic-ui or material-ui",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/meteor-intelligence-team/react-semantic-form.git"
+    "url": "git+https://github.com/meteor-intelligence-team/react-form-manager.git"
   },
   "keywords": [
     "react",
@@ -22,14 +22,13 @@
   "author": "Sylchauf",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/meteor-intelligence-team/react-semantic-form/issues"
+    "url": "https://github.com/meteor-intelligence-team/react-form-manager/issues"
   },
-  "homepage": "https://github.com/meteor-intelligence-team/react-semantic-form#readme",
+  "homepage": "https://github.com/meteor-intelligence-team/react-form-manager#readme",
   "dependencies": {
     "semantic-ui-react": "^0.68.0",
     "semantic-ui-css": "^2.2.10",
     "material-ui": "^0.18.7",
-    "react-tap-event-plugin": "^2.0.1",
     "react-autobind": "^1.0.6"
   },
   "peerDependencies": {

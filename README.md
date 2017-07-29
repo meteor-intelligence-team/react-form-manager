@@ -12,6 +12,7 @@ $ npm i --save react-form-manager
 ``` javascript
 import React, { Component } from 'react';
 import Form from "react-form-manager";
+import 'semantic-ui-css/semantic.css';
 
 const modelAttributes = [
     [
@@ -64,7 +65,7 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <Form onSubmit={this.handleSubmit} name="semantic" attributes={modelAttributes} values={modelValues} />
+                <Form onSubmit={this.handleSubmit} name="semantic" attributes={modelAttributes} values={modelValues} material={false} />
             </div>
         );
     }
@@ -83,7 +84,7 @@ export default App;
 |values|`object`| NO | An object to initialize the form `{ name: value }`
 |errorHeader|`string`| NO | Custom header of error box
 |lang|`string`| NO | The lang used for default error messages.
-|material|`boolean`| NO | If yes, the form will be display with material-ui instead semantic.
+|material|`boolean`| YES | If true, the form will be display with material-ui instead semantic.
 
 ## Attributes Props
 
@@ -112,6 +113,7 @@ Alternatively you can use `Field` to define a input.
   import React from 'react';
   import { render } from 'react-dom';
   import Form, { Field } from 'react-form-manager';
+  import 'semantic-ui-css/semantic.css';
 
   render(
       <Form>
