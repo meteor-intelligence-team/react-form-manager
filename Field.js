@@ -12,15 +12,15 @@ export default class Field extends React.Component {
     }
 
     getValue() {
-        if (this.inp.state.value !== undefined) return this.inp.state.value;
+        if (this.inp !== null && this.inp.state.value !== undefined) return this.inp.state.value;
     }
 
     validate() {
-        return (!this.inp.validate) ? true : this.inp.validate();
+        return (!this.inp) ? true : (!this.inp.validate) ? true : this.inp.validate();
     }
 
     resetError() {
-        this.inp.setState({ error: false, errorMsg: '' });
+        if (this.inp !== null) this.inp.setState({ error: false, errorMsg: '' });
     }
 
     handleFocus() {
@@ -31,9 +31,7 @@ export default class Field extends React.Component {
         const {type, name, ...other} = this.props;
         const Input = (typeof type === "string") ? (inputs.hasOwnProperty(type) ? inputs[type] : inputs.Text) : type;
 
-        return (
-            <Input ref={input => this.inp = input} name={name} {...other} onFocus={this.handleFocus.bind(this)}/>
-        );
+        return <Input ref={input => this.inp = input} name={name} {...other} onFocus={this.handleFocus.bind(this)}/>;
     }
 }
 

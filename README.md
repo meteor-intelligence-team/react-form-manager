@@ -14,6 +14,8 @@ import React, { Component } from 'react';
 import Form from "react-form-manager";
 import 'semantic-ui-css/semantic.css';
 
+const Separator = (self) => (<h4 style={{margin: "3rem 0 -1rem 0"}}>{self.props.title}</h4>);
+
 const modelAttributes = [
     [
         { name: "name", type: "Text", label:"Name", placeholder: "Enter your name", required: true },
@@ -42,6 +44,7 @@ const modelAttributes = [
             {value:"three", text: "Option 3"},
         ], required: true, search:true, multiple:true},
     ],
+    <Separator title="Environment" />,
     { name: "description", type: "TextArea", label: "Description" },
     { name: "submit", type: "Submit", label: "Submit", textAlign:"center" }
 ];
@@ -92,20 +95,50 @@ export default App;
 |-------|-------|-------|-------|
 |name|`string`| YES | The name of this input.
 |label|`string`| YES | The label of this input.
-|type|`string`| YES | One of `Text`, `TextArea`, `Number`, `Radio`, `Boolean`, `Date`, `Select`.
+|type|`string`| YES | One of `Text`, `TextArea`, `Number`, `Radio`, `Boolean`, `Date`, `Select`, `Json` (see below).
 |required|`boolean`| NO | This input can be required or not.
-|placeholder|`string`| NO | Only if type is `Text`. The placeholder for this input.
 |textAlign|`string`| NO | Text Alignment in Grid. One of `left`, `center` or `right`.
 |verticalAlign|`string`| NO | Vertical Alignment in Grid. One of `left`, `center` or `right`.
-|min|`string`| NO | Only if type is `Number` or `Date`. The minimum number (`number`) ou the minimum date (`string` Format: YYYY-MM-DD).
-|max|`string`| NO | Only if type is `Number` or `Date`. The maximum number (`number`) ou the maximum date (`string` Format: YYYY-MM-DD).
-|minLength|`string`| NO | Only if type is `Text` or `TextArea`. The max length of strings for this input.
-|multiple|`string`| NO | Only if type is `Select`. Multiple selection or not.
-|search|`string`| NO | Only if type is `Select`. The select can be searchable or not. This can't be used with material.
-|options|`[object]`| ? | Required if type is `Select`. An Array of object to construct the select `{ value: 'some', text: 'example' }`
+|min|`string`| NO | Only if type is `Number` or `Date`. The minimum number (`number`) or the minimum date (`string` Format: YYYY-MM-DD).
+|max|`string`| NO | Only if type is `Number` or `Date`. The maximum number (`number`) or the maximum date (`string` Format: YYYY-MM-DD).
+
+Attributes can be a React Element directly, to use separator for example.
+
+**`Text` element**
+
+|       |Format|Required|What it does ?|
+|-------|-------|-------|-------|
+|placeholder|`string`| NO | Only if type is `Text`. The placeholder for this input.
+|minLength|`string`| NO | The mix length of strings for this input.
+|maxLength|`string`| NO | The max length of strings for this input.
+
+**`TextArea` element**
+
+|       |Format|Required|What it does ?|
+|-------|-------|-------|-------|
+|minLength|`string`| NO | The mix length of strings for this input.
+|maxLength|`string`| NO | The max length of strings for this input.
 
 
-**Customizing the Form**
+**`Select` element**
+
+|       |Format|Required|What it does ?|
+|-------|-------|-------|-------|
+|multiple|`string`| NO | Multiple selection or not.
+|search|`string`| NO | The select can be searchable or not. This can't be used with material.
+|options|`[object]`| YES | An Array of object to construct the select `{ value: 'some', text: 'example' }`
+
+
+**`Json` element**
+
+A Json element is useful to display a gui to construct a json string which will be return on form submit.
+
+|       |Format|Required|What it does ?|
+|-------|-------|-------|-------|
+|options|`[object]`| YES | An Array of object to construct the json `{ name: 'some', placeholder: 'example', required: true }`
+|required|`boolean`| NO | If true, the Json must have at least one value
+
+## Customizing the Form
 Alternatively you can use `Field` to define a input.
 @TODO Needs some extra examples
 

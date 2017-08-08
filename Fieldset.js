@@ -91,6 +91,8 @@ export default class Fieldset extends React.Component {
 
                 if (resultValidation !== true) {
                     boolean = false;
+
+                    if (this.state)
                     this.setState((prevState) => {
                         const errorMsg = [...prevState.errorMsg, `${resultValidation.name}: ${resultValidation.toString()}`];
 
@@ -107,11 +109,13 @@ export default class Fieldset extends React.Component {
         return attributes.map((attr, index) => {
             if (attr instanceof Array) {
                 const fields = [];
-                attr.forEach((element) => {
+                attr.forEach((element, index) => {
                     const { textAlign, verticalAlign, ...other } = element;
                     const defaultValue = value && value[element.name];
 
-                    fields.push(<Grid.Column verticalAlign={verticalAlign} textAlign={textAlign} key={element.name}><Field {...other} material={this.props.material} value={defaultValue}/></Grid.Column>);
+                    const key = (element.name === undefined) ? index : element.name;
+
+                    fields.push(<Grid.Column verticalAlign={verticalAlign} textAlign={textAlign} key={key}><Field {...other} material={this.props.material} value={defaultValue}/></Grid.Column>);
                 });
 
                 return <Grid key={index} columns={attr.length}>{fields}</Grid>;
@@ -171,26 +175,38 @@ Fieldset.childContextTypes = {
     fieldset: PropTypes.object
 }
 
-const checkObject = PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    required: PropTypes.bool,
-    multiple: PropTypes.bool,
-    search: PropTypes.bool,
-    placeholder: PropTypes.string,
-    textAlign: PropTypes.string,
-    verticalAlign: PropTypes.string,
-    min: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    max: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    minLength: PropTypes.number,
-    options: PropTypes.arrayOf(
-        PropTypes.shape({
-            value: PropTypes.string.isRequired,
-            text: PropTypes.string.isRequired,
-        })
-    ),
-});
+const checkObject = PropTypes.oneOfType([
+    PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        label: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
+        required: PropTypes.bool,
+        multiple: PropTypes.bool,
+        search: PropTypes.bool,
+        placeholder: PropTypes.string,
+        textAlign: PropTypes.string,
+        verticalAlign: PropTypes.string,
+        min: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+        max: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+        minLength: PropTypes.number,
+        options: PropTypes.oneOfType([
+            PropTypes.arrayOf(
+                PropTypes.shape({
+                    value: PropTypes.string.isRequired,
+                    text: PropTypes.string.isRequired,
+                })
+            ),
+            PropTypes.arrayOf(
+                PropTypes.shape({
+                    name: PropTypes.string.isRequired,
+                    required: PropTypes.bool,
+                    placeholder: PropTypes.string
+                })
+            ),
+        ]),
+    }),
+    PropTypes.element
+]);
 
 Fieldset.propTypes = {
     name: PropTypes.string.isRequired,
@@ -199,7 +215,7 @@ Fieldset.propTypes = {
     attributes: PropTypes.arrayOf(
                     PropTypes.oneOfType([
                         PropTypes.arrayOf(checkObject),
-                        checkObject
+                        checkObject,
                     ])
     ).isRequired,
 }
