@@ -1,6 +1,9 @@
 import React from 'react';
 import { Form } from 'semantic-ui-react';
-import DatePicker from 'material-ui/DatePicker';
+import { DatePicker as DatePickerMaterial } from 'material-ui/DatePicker';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import moment from 'moment';
 import ValidationError from '../ValidationError';
 
 export default class DateInput extends React.Component {
@@ -27,11 +30,10 @@ export default class DateInput extends React.Component {
     }
 
     _onChange(event, dateObject) {
-        // @TODO @FIXME difference entre semantic et material
         if (this.props.material) {
             this.setState({value: dateObject});
         } else {
-            this.setState({value: event.target.value});
+            this.setState({ value: event.toDate() });
         }
     }
 
@@ -41,7 +43,7 @@ export default class DateInput extends React.Component {
         if (material) {
             const { label, placeholder, ...rest } = other;
 
-            let minDate, maxDate, defaultDate;
+            let minDate, maxDate;
             if (this.props.min) {
                 const dateStringMin = this.props.min.match(/^(\d{4})-(\d{2})-(\d{2})$/);
                 minDate = new Date(dateStringMin[1], dateStringMin[2] - 1, dateStringMin[3]);
@@ -56,16 +58,29 @@ export default class DateInput extends React.Component {
                 maxDate = undefined;
             }
 
-            if (value) {
-                const dateStringDefault = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-                defaultDate = new Date(dateStringDefault[1], dateStringDefault[2] - 1, dateStringDefault[3]);
-            } else {
-                defaultDate = undefined;
-            }
-
-            return <DatePicker floatingLabelText={label} autoOk={true} hintText={placeholder} defaultDate={defaultDate} minDate={minDate} maxDate={maxDate} {...rest} onChange={this._onChange.bind(this)} required={this.props.required} />
+            return <DatePickerMaterial floatingLabelText={label} autoOk={true} hintText={placeholder} defaultDate={value} minDate={minDate} maxDate={maxDate} {...rest} onChange={this._onChange.bind(this)} required={this.props.required} />
         }
 
-        return <Form.Input error={this.state.error} {...other} value={this.state.value} type="date" onChange={this._onChange.bind(this)} required={this.props.required} />
+        //moment.locale('fr');
+
+        const { label, placeholder, ...rest } = other;
+
+        const valueByMoment = (this.state.value !== '') ? moment(this.state.value) : '';
+        const minByMoment = (this.props.min !== '' && this.props.min !== undefined) ? moment(this.props.min) : '';
+        const maxByMoment = (this.props.max !== '' && this.props.min !== undefined) ? moment(this.props.max) : '';
+        const required = (this.props.required) ? 'required' : '';
+
+        return <div className={`field ${required}`}>
+                    <label>{this.props.label}</label>
+                    <DatePicker
+                        selected={valueByMoment}
+                        onChange={this._onChange.bind(this)}
+                        required={this.props.required}
+                        placeholderText={placeholder}
+                        minDate={minByMoment}
+                        maxDate={maxByMoment}
+                        {...rest}
+                    />
+        </div>;
     }
 }

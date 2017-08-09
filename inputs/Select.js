@@ -45,8 +45,9 @@ export default class Select extends React.Component {
 
     render() {
         const myValue = this.props.multiple ? this.state.value ? this.state.value : [] : this.state.value;
+        const { material, ...other } = this.props;
 
-        if (this.props.material) {
+        if (material) {
             const { options, search, material, ...other } = this.props;
 
             const nullable = (!this.props.required) ? <MenuItem value={null} primaryText="" /> : '';
@@ -57,7 +58,7 @@ export default class Select extends React.Component {
             </SelectField>
         }
         return (
-                <Form.Dropdown {...this.props} error={this.state.error} value={myValue} onChange={this._onChange.bind(this)} selection required={this.props.required} />
+                <Form.Dropdown {...other} error={this.state.error} value={myValue} onChange={this._onChange.bind(this)} selection required={this.props.required} />
         );
     }
 }

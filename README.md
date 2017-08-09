@@ -45,6 +45,11 @@ const modelAttributes = [
         ], required: true, search:true, multiple:true},
     ],
     <Separator title="Environment" />,
+     /*{ name: "environment", type: "Json", label: "Environment", options: [
+            {name: "ROOT_URL", required: true, placeholder: 'http://yourApp.techexmachina.com'},
+            {name: "MONGO_URL", required: true, placeholder: 'mongodb://[username:password@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/[database][?options]]'},
+            {name: "SOME_OTHER_VAR"}
+        ]},*/
     { name: "description", type: "TextArea", label: "Description" },
     { name: "submit", type: "Submit", label: "Submit", textAlign:"center" }
 ];
