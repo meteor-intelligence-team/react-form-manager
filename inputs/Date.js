@@ -1,6 +1,5 @@
 import React from 'react';
-import { Form } from 'semantic-ui-react';
-import { DatePicker as DatePickerMaterial } from 'material-ui/DatePicker';
+import { DatePicker as DatePickerMaterial } from 'material-ui';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';

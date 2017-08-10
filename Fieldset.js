@@ -122,8 +122,9 @@ export default class Fieldset extends React.Component {
             } else {
                 const { textAlign, verticalAlign, ...other } = attr;
                 const defaultValue = value && value[attr.name];
+                const key = (attr.name === undefined) ? index : attr.name;
 
-                return <Grid verticalAlign="middle" columns={16} key={attr.name}><Grid.Column verticalAlign={verticalAlign} textAlign={textAlign} width={16}><Field material={this.props.material} {...other} value={defaultValue}/></Grid.Column></Grid>
+                return <Grid verticalAlign="middle" columns={16} key={key}><Grid.Column verticalAlign={verticalAlign} textAlign={textAlign} width={16}><Field material={this.props.material} {...other} value={defaultValue}/></Grid.Column></Grid>
             }
         })
     }

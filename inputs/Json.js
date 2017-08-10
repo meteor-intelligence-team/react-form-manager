@@ -9,6 +9,7 @@ import ValidationError from '../ValidationError';
 export default class TextArea extends React.Component {
     constructor(props, context) {
         super(props, context);
+
         this.state = {
             value: props.value || '',
             error: false,
@@ -114,7 +115,7 @@ export default class TextArea extends React.Component {
                         <Grid.Column width={15}>
                             <TextField
                                 floatingLabelText={name}
-                                value={(value) ? value : this.props.value[name]}
+                                value={ (value) ? value : (this.props.value !== undefined) ? this.props.value[name] : '' }
                                 hintText={placeholder}
                                 fullWidth
                                 onChange={this.handleEnvVarChange( index ).bind(this)}
