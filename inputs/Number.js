@@ -8,7 +8,7 @@ export default class Number extends React.Component {
         super(props, context);
 
         this.state = {
-            value: props.value || '',
+            value: parseFloat(props.value) || '',
             error: false,
             errorMsg: ''
         }
