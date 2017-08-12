@@ -26,7 +26,9 @@ export default class Number extends React.Component {
     }
 
     _onChange(event) {
-        this.setState({value: event.target.value});
+        const myNumber = parseFloat(event.target.value);
+
+        this.setState({value: myNumber});
     }
 
     render() {

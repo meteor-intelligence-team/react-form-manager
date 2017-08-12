@@ -10,12 +10,18 @@ export default class TextArea extends React.Component {
     constructor(props, context) {
         super(props, context);
 
+        const list = this.props.options.map(item => {
+            item.value = props.value[item.name]
+
+            return item;
+        });
+
         this.state = {
             value: props.value || '',
             error: false,
             errorMsg: '',
             newVarName: '',
-            list:  this.props.options
+            list
         }
     }
 
