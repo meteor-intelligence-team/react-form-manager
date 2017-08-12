@@ -130,9 +130,9 @@ export default class Fieldset extends React.Component {
     }
 
     _handleSubmit = (e) => {
-        if (!this.props.onSubmit) {
-            return;
-        }
+        this.hideAllErrors();
+
+        if ( !this.props.onSubmit ) return ;
 
         if (this.validate() === true) this.props.onSubmit(e, this.getValue());
         else e.preventDefault();
