@@ -31,7 +31,6 @@ export default class Json extends React.Component {
         const {
             name,
             required, requiredMsg,
-            regexp, regexpMsg
         } = this.props;
         const value = this.state.list;
 
@@ -40,13 +39,28 @@ export default class Json extends React.Component {
         if (value !== null && typeof value === 'object') {
             let errorMsg = '';
 
-            for(let index in value) {
-                if (value[index].required === true && (value[index].value === undefined || value[index].value === "")) errorMsg = errorMsg + value[index].name + " must have value. ";
-            }
+            const values = Object.values( value );
+
+            values.forEach( propertyOpts => {
+                if ( propertyOpts.required === true && ( propertyOpts.value === undefined || propertyOpts.value === "") ) {
+                    errorMsg = errorMsg + propertyOpts.name + " must have value. ";
+                }
+
+                const testRes = !propertyOpts.regexp.test( propertyOpts.value );
+
+                if (propertyOpts.regexp && testRes ) {
+                    console.log("______");
+                    errorMsg = errorMsg + `${propertyOpts.regexpMsg || "Invalid Regexp"} on properties ${propertyOpts.name} `;
+                }
+
+                console.log(testRes);
+
+                // Because fuck you, it's needed. Otherwise, the .test return false one time out of of 2 after a first truthy test
+                propertyOpts.regexp.test( propertyOpts.value );
+            } );
 
             if (errorMsg !== '') return new ValidationError(this, name, requiredMsg || errorMsg);
         }
-        if (regexp && !regexp.test(value)) return new ValidationError(this, name, regexMsg || ("Value must be of the given format"));
 
         return true;
     }
@@ -129,14 +143,16 @@ export default class Json extends React.Component {
                                 onChange={this.handleEnvVarChange( index )}
                             />
                         </Grid.Column>
-                        <Grid.Column width={1}>
-                            <FlatButton
-                                secondary
-                                onClick={this.handleRemoveVar( index )}
-                                icon={<Cancel />}
-                                disabled={this.isRequired(name)}
-                            />
-                        </Grid.Column>
+                        {locked ? null :
+                            <Grid.Column width={1}>
+                                <FlatButton
+                                    secondary
+                                    onClick={this.handleRemoveVar( index )}
+                                    icon={<Cancel />}
+                                    disabled={this.isRequired(name)}
+                                />
+                            </Grid.Column>
+                        }
                     </Grid>
                 )}
                 {locked ? null :
