@@ -5,10 +5,12 @@ import FlatButton from 'material-ui/FlatButton';
 import Cancel from 'material-ui/svg-icons/navigation/cancel';
 import AddIcon from 'material-ui/svg-icons/content/add-circle';
 import ValidationError from '../ValidationError';
+import autobind from 'react-autobind';
 
-export default class TextArea extends React.Component {
+export default class Json extends React.Component {
     constructor(props, context) {
         super(props, context);
+        autobind( this );
 
         const list = this.props.options.map(item => {
             if (props.value) item.value = props.value[item.name];
@@ -29,11 +31,11 @@ export default class TextArea extends React.Component {
         const {
             name,
             required, requiredMsg,
-            regex, regexMsg
+            regexp, regexpMsg
         } = this.props;
         const value = this.state.list;
 
-        // Normalize value
+        // Normalize valuee
         if (value.length === 0 && required === true) return new ValidationError(this, name, requiredMsg || "Almost one value must be insert");
         if (value !== null && typeof value === 'object') {
             let errorMsg = '';
@@ -44,7 +46,7 @@ export default class TextArea extends React.Component {
 
             if (errorMsg !== '') return new ValidationError(this, name, requiredMsg || errorMsg);
         }
-        if (regex && !regex.test(value)) return new ValidationError(this, name, regexMsg || ("Value must be of the given format"));
+        if (regexp && !regexp.test(value)) return new ValidationError(this, name, regexMsg || ("Value must be of the given format"));
 
         return true;
     }
@@ -106,7 +108,7 @@ export default class TextArea extends React.Component {
     }
 
     render() {
-        const { material } = this.props;
+        const { material, locked } = this.props;
 
         if (material) {
             const list = this.state.list;
@@ -124,41 +126,43 @@ export default class TextArea extends React.Component {
                                 value={ (value) ? value : (this.props.value !== undefined) ? this.props.value[name] : '' }
                                 hintText={placeholder}
                                 fullWidth
-                                onChange={this.handleEnvVarChange( index ).bind(this)}
+                                onChange={this.handleEnvVarChange( index )}
                             />
                         </Grid.Column>
                         <Grid.Column width={1}>
                             <FlatButton
                                 secondary
-                                onClick={this.handleRemoveVar( index ).bind(this)}
+                                onClick={this.handleRemoveVar( index )}
                                 icon={<Cancel />}
                                 disabled={this.isRequired(name)}
                             />
                         </Grid.Column>
                     </Grid>
                 )}
-                <Grid
-                    verticalAlign="middle"
-                    columns={16}
-                >
-                    <Grid.Column width={15}>
-                        <TextField
-                            floatingLabelText={"Variable name"}
-                            value={this.state.newVarName}
-                            onChange={this.handleNewVarNameChange.bind(this)}
-                            hintText={"MY_VAR_NAME"}
-                            fullWidth
-                        />
-                    </Grid.Column>
-                    <Grid.Column width={1}>
-                        <FlatButton
-                            primary
-                            icon={<AddIcon />}
-                            onClick={this.handleAddEnvVar.bind(this)}
-                            disabled={!this.state.newVarName}
-                        />
-                    </Grid.Column>
-                </Grid>
+                {locked ? null :
+                    <Grid
+                        verticalAlign="middle"
+                        columns={16}
+                    >
+                        <Grid.Column width={15}>
+                            <TextField
+                                floatingLabelText={"Variable name"}
+                                value={this.state.newVarName}
+                                onChange={this.handleNewVarNameChange}
+                                hintText={"MY_VAR_NAME"}
+                                fullWidth
+                            />
+                        </Grid.Column>
+                        <Grid.Column width={1}>
+                            <FlatButton
+                                primary
+                                icon={<AddIcon />}
+                                onClick={this.handleAddEnvVar}
+                                disabled={!this.state.newVarName}
+                            />
+                        </Grid.Column>
+                    </Grid>
+                }
                 </div>
             );
         }

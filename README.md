@@ -140,7 +140,7 @@ A Json element is useful to display a gui to construct a json string which will 
 
 |       |Format|Required|What it does ?|
 |-------|-------|-------|-------|
-|options|`[object]`| YES | An Array of object to construct the json `{ name: 'some', placeholder: 'example', required: true }`
+|options|`[object]`| YES | An Array of object to construct the json `{ name: 'some', placeholder: 'example', required: true, regexp: myRegexp }`
 |required|`boolean`| NO | If true, the Json must have at least one value
 
 ## Customizing the Form
