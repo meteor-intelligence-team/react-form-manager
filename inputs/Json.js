@@ -11,7 +11,7 @@ export default class TextArea extends React.Component {
         super(props, context);
 
         const list = this.props.options.map(item => {
-            item.value = props.value[item.name]
+            if (props.value) item.value = props.value[item.name];
 
             return item;
         });
