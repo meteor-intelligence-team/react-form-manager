@@ -45,18 +45,9 @@ export default class Json extends React.Component {
                 if ( propertyOpts.required === true && ( propertyOpts.value === undefined || propertyOpts.value === "") ) {
                     errorMsg = errorMsg + propertyOpts.name + " must have value. ";
                 }
-
-                const testRes = !propertyOpts.regexp.test( propertyOpts.value );
-
-                if (propertyOpts.regexp && testRes ) {
-                    console.log("______");
+                if (propertyOpts.regexp && !propertyOpts.regexp.test( propertyOpts.value ) ) {
                     errorMsg = errorMsg + `${propertyOpts.regexpMsg || "Invalid Regexp"} on properties ${propertyOpts.name} `;
                 }
-
-                console.log(testRes);
-
-                // Because fuck you, it's needed. Otherwise, the .test return false one time out of of 2 after a first truthy test
-                propertyOpts.regexp.test( propertyOpts.value );
             } );
 
             if (errorMsg !== '') return new ValidationError(this, name, requiredMsg || errorMsg);
