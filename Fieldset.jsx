@@ -131,7 +131,7 @@ export default class Fieldset extends React.Component {
         if ( !this.props.onSubmit ) return ;
 
         if (this.validate() === true) this.props.onSubmit(e, this.getValue());
-        else e.preventDefault();
+        else if (e !== null) e.preventDefault();
     };
 
     hideAllErrors() {
@@ -162,6 +162,15 @@ export default class Fieldset extends React.Component {
                 }
                 { children }
                 { autoChildren }
+                {(!error) ? null :
+                    <Message
+                        error
+                        visible={error}
+                        header={this.state.errorHeader}
+                        onDismiss={this.hideAllErrors}
+                        list={this.state.errorMsg || ['Sorry, something went wrong.']}
+                    />
+                }
             </form>
         );
     }

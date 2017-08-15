@@ -94,6 +94,8 @@ export default App;
 |lang|`string`| NO | The lang used for default error messages.
 |material|`boolean`| YES | If true, the form will be display with material-ui instead semantic.
 
+You can submit the form with ref: call ref.submit();
+
 ## Attributes Props
 
 |       |Format|Required|What it does ?|
