@@ -37,4 +37,4 @@ export default class Field extends React.Component {
 
 Field.contextTypes = {
     fieldset: PropTypes.object
-}
+};

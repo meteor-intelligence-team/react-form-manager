@@ -1,13 +1,13 @@
 import React from 'react';
 import Field from './Field';
-import { Form, Message, Grid } from 'semantic-ui-react';
+import { Message, Grid } from 'semantic-ui-react';
 import autobind from 'react-autobind';
 import PropTypes from 'prop-types';
 
 export default class Fieldset extends React.Component {
     constructor( props, context ) {
         super( props, context );
-
+        autobind( this );
 
         this.inputs = {};
 
@@ -15,8 +15,6 @@ export default class Fieldset extends React.Component {
             errorMsg: [],
             errorHeader: props.errorHeader || 'Error occurred',
         };
-
-        autobind( this );
     }
 
     getChildContext() {
@@ -32,7 +30,6 @@ export default class Fieldset extends React.Component {
         }
 
         console.error(`Cannot register more than one input with the same name '${name}'.`);
-        return;
     }
 
     unregisterInput(name, component) {
@@ -44,7 +41,6 @@ export default class Fieldset extends React.Component {
 
         if (component !== inp) {
             console.warn(`Trying to unregister the component with name '${name}' but something else was registered on that name. Should be a bug.`);
-            return;
         } else {
             delete this.inputs[name];
         }
@@ -136,7 +132,7 @@ export default class Fieldset extends React.Component {
 
         if (this.validate() === true) this.props.onSubmit(e, this.getValue());
         else e.preventDefault();
-    }
+    };
 
     hideAllErrors() {
         this.setState({ errorMsg: [] });
@@ -151,30 +147,33 @@ export default class Fieldset extends React.Component {
     render() {
         const {children, values, attributes, onSubmit, material, ...other} = this.props;
         const autoChildren = attributes ? this.generate(attributes, values) : false;
-        const error = (this.state.errorMsg.length > 0) ? true : false;
+        const error = (this.state.errorMsg.length > 0);
 
         return (
-            <Form error={error} onSubmit={this._handleSubmit} {...other} noValidate>
-                <Message
-                    error
-                    header={this.state.errorHeader}
-                    onDismiss={this.hideAllErrors}
-                    list={this.state.errorMsg || ['Sorry, something went wrong.']}
-                />
+            <form onSubmit={this._handleSubmit} {...other} noValidate>
+                {(!error) ? null :
+                    <Message
+                        error
+                        visible={error}
+                        header={this.state.errorHeader}
+                        onDismiss={this.hideAllErrors}
+                        list={this.state.errorMsg || ['Sorry, something went wrong.']}
+                    />
+                }
                 { children }
                 { autoChildren }
-            </Form>
+            </form>
         );
     }
 }
 
 Fieldset.contextTypes = {
     fieldset: PropTypes.object
-}
+};
 
 Fieldset.childContextTypes = {
     fieldset: PropTypes.object
-}
+};
 
 const checkObject = PropTypes.oneOfType([
     PropTypes.shape({
@@ -201,7 +200,9 @@ const checkObject = PropTypes.oneOfType([
                 PropTypes.shape({
                     name: PropTypes.string.isRequired,
                     required: PropTypes.bool,
-                    placeholder: PropTypes.string
+                    placeholder: PropTypes.string,
+                    regexp: PropTypes.string,
+                    regexpMsg: PropTypes.string
                 })
             ),
         ]),
@@ -219,4 +220,4 @@ Fieldset.propTypes = {
                         checkObject,
                     ])
     ).isRequired,
-}
+};

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Grid } from 'semantic-ui-react';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import Cancel from 'material-ui/svg-icons/navigation/cancel';
@@ -30,11 +29,11 @@ export default class Json extends React.Component {
     validate() {
         const {
             name,
-            required, requiredMsg,
+            required, requiredMsg
         } = this.props;
         const value = this.state.list;
 
-        // Normalize valuee
+        // Normalize value
         if (value.length === 0 && required === true) return new ValidationError(this, name, requiredMsg || "Almost one value must be insert");
         if (value !== null && typeof value === 'object') {
             let errorMsg = '';
@@ -43,16 +42,16 @@ export default class Json extends React.Component {
 
             values.forEach( propertyOpts => {
                 if ( propertyOpts.required === true && ( propertyOpts.value === undefined || propertyOpts.value === "") ) {
-                    errorMsg = errorMsg + propertyOpts.name + " must have value. ";
+                    errorMsg += propertyOpts.name + " must have value. ";
                 }
                 if (propertyOpts.regexp && !propertyOpts.regexp.test( propertyOpts.value ) ) {
-                    errorMsg = errorMsg + `${propertyOpts.regexpMsg || "Invalid Regexp"} on properties ${propertyOpts.name} `;
+                    errorMsg += `${propertyOpts.regexpMsg || "Invalid Regexp"} on properties ${propertyOpts.name} `;
                 }
             } );
 
             if (errorMsg !== '') return new ValidationError(this, name, requiredMsg || errorMsg);
         }
-
+        
         return true;
     }
 
@@ -118,59 +117,53 @@ export default class Json extends React.Component {
         if (material) {
             const list = this.state.list;
 
-            return (<div>
-                {list.map(({name, value, placeholder}, index) =>
-                    <Grid
-                        verticalAlign="middle"
-                        columns={16}
-                        key={index}
-                    >
-                        <Grid.Column width={15}>
-                            <TextField
-                                floatingLabelText={name}
-                                value={ (value) ? value : (this.props.value !== undefined) ? this.props.value[name] : '' }
-                                hintText={placeholder}
-                                fullWidth
-                                onChange={this.handleEnvVarChange( index )}
-                            />
-                        </Grid.Column>
-                        {locked ? null :
-                            <Grid.Column width={1}>
-                                <FlatButton
-                                    secondary
-                                    onClick={this.handleRemoveVar( index )}
-                                    icon={<Cancel />}
-                                    disabled={this.isRequired(name)}
+            return (<table style={{width:'100%'}}><tbody>
+                        {list.map(({name, value, placeholder}, index) =>
+                            <tr key={index}>
+                                <td style={{width:'100%'}}>
+
+                                    <TextField
+                                        floatingLabelText={name}
+                                        value={ (value) ? value : '' }
+                                        hintText={placeholder}
+                                        fullWidth
+                                        onChange={this.handleEnvVarChange( index )}
+                                    />
+                                </td>
+                                {locked ? null :
+                                    <td>
+                                        <FlatButton
+                                            secondary
+                                            onClick={this.handleRemoveVar( index )}
+                                            icon={<Cancel />}
+                                            disabled={this.isRequired(name)}
+                                        />
+                                    </td>
+                                }
+                            </tr>
+                        )}
+                        <tr>
+                            <td>
+                                <TextField
+                                    floatingLabelText={"Variable name"}
+                                    value={this.state.newVarName}
+                                    onChange={this.handleNewVarNameChange}
+                                    hintText={"MY_VAR_NAME"}
+                                    fullWidth
                                 />
-                            </Grid.Column>
-                        }
-                    </Grid>
-                )}
-                {locked ? null :
-                    <Grid
-                        verticalAlign="middle"
-                        columns={16}
-                    >
-                        <Grid.Column width={15}>
-                            <TextField
-                                floatingLabelText={"Variable name"}
-                                value={this.state.newVarName}
-                                onChange={this.handleNewVarNameChange}
-                                hintText={"MY_VAR_NAME"}
-                                fullWidth
-                            />
-                        </Grid.Column>
-                        <Grid.Column width={1}>
-                            <FlatButton
-                                primary
-                                icon={<AddIcon />}
-                                onClick={this.handleAddEnvVar}
-                                disabled={!this.state.newVarName}
-                            />
-                        </Grid.Column>
-                    </Grid>
-                }
-                </div>
+                            </td>
+                            {locked ? null :
+                                <td>
+                                    <FlatButton
+                                        primary
+                                        icon={<AddIcon />}
+                                        onClick={this.handleAddEnvVar}
+                                        disabled={!this.state.newVarName}
+                                    />
+                                </td>
+                            }
+                        </tr>
+                </tbody></table>
             );
         }
 
