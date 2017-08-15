@@ -12,7 +12,7 @@ export default class Json extends React.Component {
         autobind( this );
 
         const list = this.props.options.map(item => {
-            if (props.value) item.value = props.value[item.name];
+            item.value = (props.value) ? props.value[item.name] : '';
 
             return item;
         });
