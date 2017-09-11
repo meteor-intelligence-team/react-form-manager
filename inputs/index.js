@@ -7,3 +7,4 @@ export Select from './Select';
 export Submit from './Submit';
 export Radio from './Radio';
 export Json from './Json';
+export File from './File';

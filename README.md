@@ -102,12 +102,10 @@ You can submit the form with ref: call ref.submit();
 |-------|-------|-------|-------|
 |name|`string`| YES | The name of this input.
 |label|`string`| YES | The label of this input.
-|type|`string`| YES | One of `Text`, `TextArea`, `Number`, `Radio`, `Boolean`, `Date`, `Select`, `Json` (see below).
+|type|`string`| YES | One of `Text`, `TextArea`, `Number`, `Radio`, `Boolean`, `Date`, `Select`, `Json`, `File` (see below).
 |required|`boolean`| NO | This input can be required or not.
 |textAlign|`string`| NO | Text Alignment in Grid. One of `left`, `center` or `right`.
 |verticalAlign|`string`| NO | Vertical Alignment in Grid. One of `left`, `center` or `right`.
-|min|`string`| NO | Only if type is `Number` or `Date`. The minimum number (`number`) or the minimum date (`string` Format: YYYY-MM-DD).
-|max|`string`| NO | Only if type is `Number` or `Date`. The maximum number (`number`) or the maximum date (`string` Format: YYYY-MM-DD).
 
 Attributes can be a React Element directly, to use separator for example.
 
@@ -118,6 +116,21 @@ Attributes can be a React Element directly, to use separator for example.
 |placeholder|`string`| NO | Only if type is `Text`. The placeholder for this input.
 |minLength|`string`| NO | The mix length of strings for this input.
 |maxLength|`string`| NO | The max length of strings for this input.
+
+**`Number` element**
+
+|       |Format|Required|What it does ?|
+|-------|-------|-------|-------|
+|min|`number`| NO | The minimum number (`number`).
+|max|`number`| NO | The maximum number (`number`).
+
+**`Date` element**
+
+|       |Format|Required|What it does ?|
+|-------|-------|-------|-------|
+|min|`string`| NO | The minimum date (`string` Format: YYYY-MM-DD).
+|max|`string`| NO | The maximum date (`string` Format: YYYY-MM-DD).
+
 
 **`TextArea` element**
 
@@ -144,6 +157,19 @@ A Json element is useful to display a gui to construct a json string which will 
 |-------|-------|-------|-------|
 |options|`[object]`| YES | An Array of object to construct the json `{ name: 'some', placeholder: 'example', required: true, regexp: myRegexp, regexpMsg: 'Some Error Msg' }`
 |required|`boolean`| NO | If true, the Json must have at least one value
+
+**`File` element**
+
+A File element can upload a file on AWS s3 bucket.
+
+|       |Format|Required|What it does ?|
+|-------|-------|-------|-------|
+|path|`string`| YES | path in bucket where store the file
+|publicRead|`boolean`| YES | If true, the file have a public URL. If false, the file will be private
+|accept|`string`| YES | Mime type to filter sended file
+|s3GetSignedUrl|`function`| YES | The function you provide should take file and callback arguments. Callback should be called with an object containing signedUrl key.
+|s3DeleteObject|`function`| YES | A function to delete the object on aws. The function you provide should take the public link and callback arguments.
+
 
 ## Customizing the Form
 Alternatively you can use `Field` to define a input.

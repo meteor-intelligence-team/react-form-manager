@@ -215,6 +215,9 @@ const checkObject = PropTypes.oneOfType([
                 })
             ),
         ]),
+        path: PropTypes.string,
+        publicRead: PropTypes.bool,
+        accept: PropTypes.string,
     }),
     PropTypes.element
 ]);
