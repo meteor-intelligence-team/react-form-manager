@@ -1,6 +1,6 @@
 {
   "name": "react-form-manager",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "A dynamic form for React styled with semantic-ui or material-ui",
   "main": "index.js",
   "scripts": {
@@ -32,6 +32,7 @@
     "material-ui-confirm-button": "^0.2.0",
     "react-autobind": "^1.0.6",
     "react-datepicker": "^0.52.0",
+    "react-s3-uploader": "^4.5.0",
     "moment": "^2.18.1"
   },
   "peerDependencies": {
