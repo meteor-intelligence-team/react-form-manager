@@ -72,9 +72,11 @@ export default class File extends React.Component {
 
 
     deleteObject() {
-        this.props.s3DeleteObject(this.state.value.publicLink, () => {
+        this.props.s3DeleteObject(this.state.value.publicLink).then(() => {
             this.setState({ labelButton: buttonText, disableButton: false, displayProgressBar: 'none', value: null, previewFileSrc: null, previewFile: null });
-        })
+        }).catch((reason => {
+            console.error(reason);
+        }));
     }
 
     render() {

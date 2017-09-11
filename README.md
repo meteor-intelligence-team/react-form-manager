@@ -168,7 +168,7 @@ A File element can upload a file on AWS s3 bucket.
 |publicRead|`boolean`| YES | If true, the file have a public URL. If false, the file will be private
 |accept|`string`| YES | Mime type to filter sended file
 |s3GetSignedUrl|`function`| YES | The function you provide should take file and callback arguments. Callback should be called with an object containing signedUrl key.
-|s3DeleteObject|`function`| YES | A function to delete the object on aws. The function you provide should take the public link and callback arguments.
+|s3DeleteObject|`function`| YES | A function to delete the object on aws. The function you provide should take the public link and callback arguments. Must return a promise
 
 
 ## Customizing the Form
