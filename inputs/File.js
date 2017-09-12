@@ -47,7 +47,7 @@ export default class File extends React.Component {
     }
 
     onUploadFinish(signResult, file) {
-        if (this.props.publicRead) file.publicLink = signResult.signedUrl.split('?')[0];
+        file.publicLink = signResult.signedUrl.split('?')[0];
 
         if (file.type.indexOf('image')  > -1 && this.props.publicRead) {
             this.setState({ previewFile: file.name, previewFileSrc: file.publicLink });
