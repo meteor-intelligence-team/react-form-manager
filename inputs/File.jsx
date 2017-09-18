@@ -27,7 +27,7 @@ export default class File extends React.Component {
             disableButton: !!(props.value),
             previewFile: (props.value) ? props.value.name : null,
             previewFileSrc: (props.value) ? props.value.publicLink : null
-        }
+        };
     }
 
     validate() {
