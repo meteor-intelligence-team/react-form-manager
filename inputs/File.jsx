@@ -55,7 +55,7 @@ export default class File extends React.Component {
             this.setState({ previewFile: file.name });
         }
 
-        this.setState({ value: file, displayProgressBar: 'none', labelButton: buttonTextUploaded });
+        this.setState({ value: JSON.stringify( file ), displayProgressBar: 'none', labelButton: buttonTextUploaded });
     }
 
     onUploadProgress(percent) {
@@ -80,12 +80,16 @@ export default class File extends React.Component {
     }
 
     render() {
+        const { label } = this.props;
         const headers = (this.props.publicRead) ? { 'x-amz-acl': 'public-read' } : {};
 
         if(this.props.s3GetSignedUrl === undefined) console.error('input File : s3GetSignedUrl is undefined');
         if(this.props.s3DeleteObject === undefined) console.error('input File : s3DeleteObject is undefined');
 
         return <div>
+                <span>
+                    {label}
+                </span>
                 <RaisedButton containerElement='label' label={this.state.labelButton} secondary={true} disabled={this.state.disableButton}>
                     <ReactS3Uploader
                         getSignedUrl={this.props.s3GetSignedUrl}
