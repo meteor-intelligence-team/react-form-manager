@@ -10,7 +10,8 @@ export default class Select extends React.Component {
         this.state = {
             value: props.value || undefined,
             error: false,
-            errorMsg: ''
+            errorMsg: '',
+            results: [],
         }
     }
 
@@ -24,8 +25,15 @@ export default class Select extends React.Component {
         return true;
     }
 
+    componentDidMount(){
+        if ( typeof this.props.options === 'function' ) this.props.options( "", results => this.setState({ results }) );
+    }
+
     _onChange(event, data, valueMaterial) {
-        if (this.props.material) {
+        if ( typeof this.props.options === 'function' )
+            this.props.options( ( this.props.material ? valueMaterial : data.value ), results => this.setState({ results }) );
+
+        if ( this.props.material ){
             this.setState({value: valueMaterial});
         } else {
             this.setState({value: data.value});
@@ -33,6 +41,16 @@ export default class Select extends React.Component {
     }
 
     menuItems(options) {
+        if ( typeof this.props.options === 'function' )
+            return ( this.state.results.map( value => (
+                <MenuItem
+                    key={value.value}
+                    insetChildren={true}
+                    value={value.value}
+                    primaryText={value.text}
+                />
+            ) ) );
+
         return options.map((value) => (
             <MenuItem
                 key={value.value}
@@ -52,10 +70,18 @@ export default class Select extends React.Component {
 
             const nullable = (!this.props.required) ? <MenuItem value={null} primaryText="" /> : '';
 
-            return <SelectField {...other} errorText={this.state.errorMsg} floatingLabelText={this.props.label} value={myValue} onChange={this._onChange.bind(this)} required={this.props.required}>
-                {nullable}
-                {this.menuItems(this.props.options)}
-            </SelectField>
+            return (
+                <SelectField {...other}
+                    errorText={this.state.errorMsg}
+                    floatingLabelText={this.props.label}
+                    value={myValue}
+                    onChange={this._onChange.bind(this)}
+                    required={this.props.required}
+                >
+                    {nullable}
+                    {this.menuItems( this.props.options )}
+                </SelectField>
+            );
         }
         return (
                 <Form.Dropdown {...other} error={this.state.error} value={myValue} onChange={this._onChange.bind(this)} selection required={this.props.required} />

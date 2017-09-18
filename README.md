@@ -146,7 +146,7 @@ Attributes can be a React Element directly, to use separator for example.
 |-------|-------|-------|-------|
 |multiple|`string`| NO | Multiple selection or not.
 |search|`string`| NO | The select can be searchable or not. This can't be used with material.
-|options|`[object]`| YES | An Array of object to construct the select `{ value: 'some', text: 'example' }`
+|options|`[object]`| YES | An Array of object to construct the select `{ value: 'some', text: 'example' }` or a function which return the same structure to live update the select input
 
 
 **`Json` element**
