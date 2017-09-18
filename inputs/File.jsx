@@ -47,15 +47,26 @@ export default class File extends React.Component {
     }
 
     onUploadFinish(signResult, file) {
-        file.publicLink = signResult.signedUrl.split('?')[0];
+        const publicLink = signResult.signedUrl.split('?')[0];
+        const { name, type, size } = file;
+        const { publicRead } = this.props;
 
-        if (file.type.indexOf('image')  > -1 && this.props.publicRead) {
+        file.publicLink = publicLink;
+
+        if (file.type.indexOf('image')  > -1 && publicRead) {
             this.setState({ previewFile: file.name, previewFileSrc: file.publicLink });
         } else {
             this.setState({ previewFile: file.name });
         }
 
-        this.setState({ value: JSON.stringify( file ), displayProgressBar: 'none', labelButton: buttonTextUploaded });
+        const value = {
+            publicLink,
+            type,
+            name,
+            publicRead,
+        };
+
+        this.setState({ value, displayProgressBar: 'none', labelButton: buttonTextUploaded });
     }
 
     onUploadProgress(percent) {
