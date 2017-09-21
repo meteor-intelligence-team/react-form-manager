@@ -14,7 +14,7 @@ export default class Json extends React.Component {
         const myOptions = [...this.props.options];
         const alreadyAdded = [];
         const list = myOptions.map(item => {
-            item.value = (props.value[item.name]) ? props.value[item.name] : '';
+            item.value = (props.value) ? props.value[item.name] : '';
             alreadyAdded.push(item.name);
 
             return item;
