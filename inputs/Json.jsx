@@ -12,18 +12,16 @@ export default class Json extends React.Component {
         autobind( this );
 
         const myOptions = [...this.props.options];
-
+        const alreadyAdded = [];
         const list = myOptions.map(item => {
-            item.value = (props.value) ? props.value[item.name] : '';
-            props.value[item.name] = undefined;
-
-
+            item.value = (props.value[item.name]) ? props.value[item.name] : '';
+            alreadyAdded.push(item.name);
 
             return item;
         });
 
         Object.keys(this.props.value).map(name => {
-            if (this.props.value[name] !== undefined) {
+            if (!~alreadyAdded.indexOf(name)) {
                 const element = {
                     name,
                     value: this.props.value[name]
@@ -80,7 +78,7 @@ export default class Json extends React.Component {
         event.preventDefault();
 
         const list = [...this.state.list, {
-            value 		: "",
+            value 	: "",
             name 	: this.state.newVarName,
         }];
 
@@ -100,16 +98,21 @@ export default class Json extends React.Component {
                 json[item.name] = item.value;
             });
 
-            this.setState({ list });
-            this.setState({ value: json });
+            this.setState({ list, value: json });
         });
     }
 
     handleRemoveVar( index ){
-        return ( ( event ) => {
+        return ( () => {
             const list = [...this.state.list].filter( ( a, thisIndex ) => thisIndex !== index );
 
-            this.setState({ list });
+            // convert as Json
+            let json = {};
+            list.forEach((item) => {
+                json[item.name] = item.value;
+            });
+
+            this.setState({ list, value: json });
         });
     }
 

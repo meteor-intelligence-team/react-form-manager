@@ -25,7 +25,7 @@ export default class Text extends React.Component {
 
         // Normalize value
         if ((value === "" || value === undefined || value === null) && required) return new ValidationError(this, label, requiredMsg || "Value is required");
-        if (minLength && value.length < minLength) return new ValidationError(this, label, minLengthMsg || ("Value must be at least " + minLength + " characters"));
+        if (minLength && value.length < minLength && value.length > 0) return new ValidationError(this, label, minLengthMsg || ("Value must be at least " + minLength + " characters"));
         if (maxLength && value.length > maxLength) return new ValidationError(this, label, maxLengthMsg || ("Value cannot be more than " + maxLength + " characters"));
         if (regex && !regex.test(value)) return new ValidationError(this, label, regexMsg || ("Value must be of the given format"));
 
