@@ -24,12 +24,13 @@ export default class Fieldset extends React.Component {
     }
 
     registerInput(name, component) {
-        if (this.inputs[name] === undefined) {
-            this.inputs[name] = component;
+        const myName = (name) ? name : Math.random();
+        if (this.inputs[myName] === undefined) {
+            this.inputs[myName] = component;
             return;
         }
 
-        console.error(`Cannot register more than one input with the same name '${name}'.`);
+        console.error(`Cannot register more than one input with the same name '${myName}'.`);
     }
 
     unregisterInput(name, component) {

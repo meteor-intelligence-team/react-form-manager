@@ -11,10 +11,26 @@ export default class Json extends React.Component {
         super(props, context);
         autobind( this );
 
-        const list = this.props.options.map(item => {
+        const myOptions = [...this.props.options];
+
+        const list = myOptions.map(item => {
             item.value = (props.value) ? props.value[item.name] : '';
+            props.value[item.name] = undefined;
+
+
 
             return item;
+        });
+
+        Object.keys(this.props.value).map(name => {
+            if (this.props.value[name] !== undefined) {
+                const element = {
+                    name,
+                    value: this.props.value[name]
+                };
+
+                list.push(element);
+            }
         });
 
         this.state = {
@@ -51,7 +67,7 @@ export default class Json extends React.Component {
 
             if (errorMsg !== '') return new ValidationError(this, name, requiredMsg || errorMsg);
         }
-        
+
         return true;
     }
 
@@ -142,27 +158,27 @@ export default class Json extends React.Component {
                                 }
                             </tr>
                         )}
-                        <tr>
-                            <td>
-                                <TextField
-                                    floatingLabelText={"Variable name"}
-                                    value={this.state.newVarName}
-                                    onChange={this.handleNewVarNameChange}
-                                    hintText={"MY_VAR_NAME"}
-                                    fullWidth
-                                />
-                            </td>
-                            {locked ? null :
+                        {locked ? null :
+                            <tr>
                                 <td>
-                                    <FlatButton
-                                        primary
-                                        icon={<AddIcon />}
-                                        onClick={this.handleAddEnvVar}
-                                        disabled={!this.state.newVarName}
+                                    <TextField
+                                        floatingLabelText={"Variable name"}
+                                        value={this.state.newVarName}
+                                        onChange={this.handleNewVarNameChange}
+                                        hintText={"MY_VAR_NAME"}
+                                        fullWidth
                                     />
                                 </td>
-                            }
-                        </tr>
+                                    <td>
+                                        <FlatButton
+                                            primary
+                                            icon={<AddIcon />}
+                                            onClick={this.handleAddEnvVar}
+                                            disabled={!this.state.newVarName}
+                                        />
+                                    </td>
+                            </tr>
+                        }
                 </tbody></table>
             );
         }

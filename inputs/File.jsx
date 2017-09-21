@@ -48,7 +48,7 @@ export default class File extends React.Component {
 
     onUploadFinish(signResult, file) {
         const publicLink = signResult.signedUrl.split('?')[0];
-        const { name, type, size } = file;
+        const { name, type } = file;
         const { publicRead } = this.props;
 
         file.publicLink = publicLink;
