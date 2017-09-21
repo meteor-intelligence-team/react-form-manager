@@ -20,16 +20,18 @@ export default class Json extends React.Component {
             return item;
         });
 
-        Object.keys(this.props.value).map(name => {
-            if (!~alreadyAdded.indexOf(name)) {
-                const element = {
-                    name,
-                    value: this.props.value[name]
-                };
+        if (this.props.value) {
+            Object.keys(this.props.value).map(name => {
+                if (!~alreadyAdded.indexOf(name)) {
+                    const element = {
+                        name,
+                        value: this.props.value[name]
+                    };
 
-                list.push(element);
-            }
-        });
+                    list.push(element);
+                }
+            });
+        }
 
         this.state = {
             value: props.value || '',
