@@ -137,7 +137,7 @@ export default class Json extends React.Component {
             const list = this.state.list;
 
             return (<table style={{width:'100%'}}><tbody>
-                        {list.map(({name, value, placeholder}, index) =>
+                        {list.map(({name, value, placeholder, readOnly}, index) =>
                             <tr key={index}>
                                 <td style={{width:'100%'}}>
 
@@ -146,10 +146,11 @@ export default class Json extends React.Component {
                                         value={ (value) ? value : '' }
                                         hintText={placeholder}
                                         fullWidth
+                                        disabled={readOnly}
                                         onChange={this.handleEnvVarChange( index )}
                                     />
                                 </td>
-                                {locked ? null :
+                                {(locked || readOnly) ? null :
                                     <td>
                                         <FlatButton
                                             secondary
