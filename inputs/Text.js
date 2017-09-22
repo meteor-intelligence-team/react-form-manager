@@ -9,7 +9,7 @@ export default class Text extends React.Component {
         this.state = {
             value: props.value || '',
             error: false,
-            errorMsg: ''
+            errorMsg: '',
         }
     }
 
@@ -19,7 +19,7 @@ export default class Text extends React.Component {
             required, requiredMsg,
             minLength, minLengthMsg,
             maxLength, maxLengthMsg,
-            regex, regexMsg
+            regexp, regexpMsg
         } = this.props;
         const value = this.state.value;
 
@@ -27,7 +27,7 @@ export default class Text extends React.Component {
         if ((value === "" || value === undefined || value === null) && required) return new ValidationError(this, label, requiredMsg || "Value is required");
         if (minLength && value.length < minLength && value.length > 0) return new ValidationError(this, label, minLengthMsg || ("Value must be at least " + minLength + " characters"));
         if (maxLength && value.length > maxLength) return new ValidationError(this, label, maxLengthMsg || ("Value cannot be more than " + maxLength + " characters"));
-        if (regex && !regex.test(value)) return new ValidationError(this, label, regexMsg || ("Value must be of the given format"));
+        if (regexp && !regexp.test(value)) return new ValidationError(this, label, regexpMsg || ("Value must be of the given format: "+regexp));
 
         return true;
     }
@@ -37,15 +37,37 @@ export default class Text extends React.Component {
     }
 
     render() {
-        const { value, required, material, ...other } = this.props;
+        const { value, required, material, disabledOnEdit, regexp, regexpMsg, ...other } = this.props;
 
         if (material) {
             const { label, placeholder, ...rest } = other;
 
-            return <TextField floatingLabelText={label} hintText={placeholder} errorText={this.state.errorMsg} {...rest} fullWidth={true} defaultValue={this.state.value} type="text" onChange={this._onChange.bind(this)} required={required}/>
+            return (
+                <TextField
+                    type="text"
+                    floatingLabelText={label}
+                    hintText={placeholder}
+                    errorText={this.state.errorMsg}
+                    fullWidth={true}
+                    defaultValue={this.state.value}
+                    onChange={this._onChange.bind(this)}
+                    required={required}
+                    disabled={!!(disabledOnEdit && this.props.value)}
+                    {...rest}
+                />
+            );
         }
+
         return (
-            <Form.Input error={this.state.error} value={this.state.value} {...other} type="text" onChange={this._onChange.bind(this)} required={required}/>
+            <Form.Input
+                error={this.state.error}
+                value={this.state.value}
+                type="text"
+                onChange={this._onChange.bind(this)}
+                required={required}
+                disabled={!!(disabledOnEdit && this.props.value)}
+                {...other}
+            />
         );
     }
 }

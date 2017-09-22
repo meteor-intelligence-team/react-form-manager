@@ -116,6 +116,9 @@ Attributes can be a React Element directly, to use separator for example.
 |placeholder|`string`| NO | Only if type is `Text`. The placeholder for this input.
 |minLength|`string`| NO | The mix length of strings for this input.
 |maxLength|`string`| NO | The max length of strings for this input.
+|disabledOnEdit|`boolean`|NO| Put in readonly if there is a init value
+|regexp|`RegExp`|NO| A Regular Expression to validate this input 
+|regexpMsg|`string`|NO| A message which display when this input was not validate by regexp
 
 **`Number` element**
 
